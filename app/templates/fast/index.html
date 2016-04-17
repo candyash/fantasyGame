@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+{% if current_user.is_authenticated %}
+ <div class="container">
+         <div class="jumbotron">
+
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-12">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <h1>Fantansy Game</h1>
+            <button class="btn btn-success btn-lg">Create League</button>
+
+            <button class="btn btn-success btn-lg">Join League</button>
+          </div>
+            <div class="col-lg-2 col-md-2 col-sm-12">
+            </div>
+          </div>
+          <div>
+
+           </div>
+
+         </div>
+{% else %}
+<div class="container">
+
+  <div class="jumbotron text-justify " color="#FFFFFF">
+    <div class="row">
+      <div class="col-sm-6 ">
+        <h3>Game Discription</h3>
+        Our game has a distinct scoring system that opens up a tactical fantasy game for fans of
+        the UFC. Successful team managers are the ones who can build a well-balanced team so that all
+        elements of MMA are represented. UFC fighters do not fight many times per year, but there were
+        46 UFC events in 2014, which generates ample matches for a fantasy game. With two separate
+        League formats you can emphasise the UFC athletes who are near the top now or go with a “Keeper”
+        league format, which makes you think long term. In our game team managers can also utilise Free
+        Agents to try and steal a category they are about to lose or try and solidify areas they want to win.
+      </div>
+      <div class="col-sm-6 ">
+        <iframe width="520" height="320" src="https://www.youtube.com/embed/IG1aT_Ij7VA" frameborder="0"  allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="row spacebottom">
+      <div class="col-sm-4">
+        <h3>Step by step</h3>
+        <ul class="user-list">
+        <li>Join League or Create a League</li>
+        <li>Draft</li>
+        <li>Begin Season</li>
+        <li>End of Season and new Champion</li>
+        <li>Draft</li>
+        <li>Begin Season</li>
+        <li>etc</li>
+      </ul>
+      <h4>Join League</h4>
+      <p>Most new players on our website will of course just join a League that someone has already created. He will use Search options to find the League that he prefers. For example John Smith searches for a League that is Keeper Format, has Playoffs and minimum 10 teams. After pressing Search there will be a list of Leagues that have all his preferences and still have room for new players. John finds a League that already has seven teams so he will be the eight and only two more teams are needed to start the season.</p>
+
+      </div>
+    <div class="col-sm-8">
+
+
+     </div>
+
+
+
+</div>
+
+
+
+
+{% endif %}
+
+{% endblock %}
