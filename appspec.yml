@@ -7,7 +7,7 @@ permissions:
    - object: /home/ec2-user/fantasyGame
      pattern: "**"
      owner: ec2-user
-     group: test
+     group: Developers
      mode: 755
      type:
        - file
