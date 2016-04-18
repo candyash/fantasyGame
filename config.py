@@ -7,7 +7,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '\xbb\xed\x0e?\xcfY#8Ev\x17\x04t\x15\xa4*****************'
     USER_PER_PAGE = 3
     if os.environ.get('DATABASE_URL') is None:
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL','postgresql+psycopg2://ashenafi:Uno12mazurca@localhost/fantacygame')
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL','postgresql+psycopg2://username:password@localhost/fantacygame')
     else:
         SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
