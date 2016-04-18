@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+   - source: /
+     destination: /home/ec2-user/fantasyGame
+permissions:
+   - object: /home/ec2-user/fantasyGame
+     pattern: "**"
+     owner: ec2-user
+     group: test
+     mode: 755
+     type:
+       - file
+hooks:
+   BeforeInstall:
+   - location: deployment/before.sh
+   AfterInstall:
+    - location: deployment/stop.sh
+      runas: ec2-user
+   ApplicationStart:
+    - location: deployment/start.sh
+      runas: ec2-user
