@@ -85,7 +85,7 @@ class Athlete(db.Model):
     age=db.Column(db.Integer)
     nationality=db.Column(db.String(20))
     is_selected=db.Column(db.Boolean)
-    team_id=db.Column(db.Integer,db.ForeignKey('team_id'),unique=True)
+    team_id=db.Column(db.Integer,db.ForeignKey('team.id'),unique=True)
 
 
 class Draft(db.Model):
@@ -133,17 +133,17 @@ class Trades(db.Model):
     __tablename__='trades'
     id=db.Column(db.Integer,primary_key=True)
     trade_date=db.Column(db.DateTime)
-    team_id=db.Column(db.Integer,db.ForeignKey('team_id'),unique=True)
+    team_id=db.Column(db.Integer,db.ForeignKey('team.id'),unique=True)
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
-    athletes_id=db.Column(db.Integer,db.ForeignKey('athletes_id'),unique=True)
-    season_id=db.Column(db.Integer,db.ForeignKey('season_id'),unique=True)
+    athletes_id=db.Column(db.Integer,db.ForeignKey('athletes.id'),unique=True)
+    season_id=db.Column(db.Integer,db.ForeignKey('season.id'),unique=True)
 
 class Season(db.Model):
     __tablename__='season'
     id=db.Column(db.Integer,primary_key=True)
     draft_date=db.Column(db.DateTime)
     first_game_date=db.Column(db.DateTime)
-    league_id=db.Column(db.Integer,db.ForeignKey('league_id'),unique=True)
+    league_id=db.Column(db.Integer,db.ForeignKey('league.id'),unique=True)
 
 class Fixture(db.Model):
     __tablename__='fixtue'
@@ -151,10 +151,10 @@ class Fixture(db.Model):
     match_date=db.Column(db.DateTime)
     upcoming_date=db.Column(db.DateTime)
     Result=db.Column(db.Integer)
-    season_id=db.Column(db.Integer,db.ForeignKey('season_id'),unique=True)
+    season_id=db.Column(db.Integer,db.ForeignKey('season.id'),unique=True)
 
 class Champion(db.Model):
     __tablename__='champion'
     id=db.Column(db.Integer,primary_key=True)
     rank=db.Column(db.Integer)
-    league_id=db.Column(db.Integer,db.ForeignKey('league_id'),unique=True)
+    league_id=db.Column(db.Integer,db.ForeignKey('league.id'),unique=True)
