@@ -75,3 +75,86 @@ class Team (db.Model):
     decision_score = db.Column(db.Integer)
     score=db.Column(db.Integer)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+
+
+class Athlete(db.Model):
+    __tablename__='athletes'
+    id=db.Column(db.Integer,primary_key=True)
+    athlete_name=db.Column(db.String(30))
+    weight=db.Column(db.Integer)
+    age=db.Column(db.Integer)
+    nationality=db.Column(db.String(20))
+    is_selected=db.Column(db.Boolean)
+    team_id=db.Column(db.Integer,db.ForeignKey('team_id'),unique=True)
+
+
+class Draft(db.Model):
+    __tablename__='draft'
+    id=db.Column(db.Integer,primary_key=True)
+    date=db.Column(db.DateTime)
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
+    athlete_id=db.Column(db.Integer,db.ForeignKey('athletes.id'),unique=True)
+
+
+
+class Draft_Room(db.Model):
+    __tablename__='draft_room'
+    id=db.Column(db.Integer,primary_key=True)
+    name=db.Column(db.String(30))
+    chat=db.Column(db.String(1000))
+    date=db.Column(db.DateTime)
+    draft_id=db.Column(db.Integer,db.ForeignKey('draft.id'),unique=True)
+
+
+class Payment(db.Model):
+    __tablename__='payment'
+    id=db.Column(db.Integer,primary_key=True)
+    card_type=db.Column(db.String(20))
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
+
+class Prize(db.Model):
+    __tablename__='prize'
+    id=db.Column(db.Integer,primary_key=True)
+    throphy_type=db.Column(db.String(20))
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
+
+
+class League(db.Model):
+    __tablename__='league'
+    id=db.Column(db.Integer,primary_key=True)
+    league_name=db.Column(db.String(20))
+    number_of_team=db.Column(db.Integer)
+    regular_season=db.Column(db.String(30))
+    playoff=db.Column(db.Boolean)
+    team_quality=db.Column(db.Boolean)
+    keeper_league=db.Column(db.Boolean)
+
+class Trades(db.Model):
+    __tablename__='trades'
+    id=db.Column(db.Integer,primary_key=True)
+    trade_date=db.Column(db.DateTime)
+    team_id=db.Column(db.Integer,db.ForeignKey('team_id'),unique=True)
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
+    athletes_id=db.Column(db.Integer,db.ForeignKey('athletes_id'),unique=True)
+    season_id=db.Column(db.Integer,db.ForeignKey('season_id'),unique=True)
+
+class Season(db.Model):
+    __tablename__='season'
+    id=db.Column(db.Integer,primary_key=True)
+    draft_date=db.Column(db.DateTime)
+    first_game_date=db.Column(db.DateTime)
+    league_id=db.Column(db.Integer,db.ForeignKey('league_id'),unique=True)
+
+class Fixture(db.Model):
+    __tablename__='fixtue'
+    id=db.Column(db.Integer,primary_key=True)
+    match_date=db.Column(db.DateTime)
+    upcoming_date=db.Column(db.DateTime)
+    Result=db.Column(db.Integer)
+    season_id=db.Column(db.Integer,db.ForeignKey('season_id'),unique=True)
+
+class Champion(db.Model):
+    __tablename__='champion'
+    id=db.Column(db.Integer,primary_key=True)
+    rank=db.Column(db.Integer)
+    league_id=db.Column(db.Integer,db.ForeignKey('league_id'),unique=True)
