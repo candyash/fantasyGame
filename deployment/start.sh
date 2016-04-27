@@ -5,4 +5,4 @@ cd  ~/fantasyGame
 sudo chown  $(whoami)  ~/fantasyGame
 
 #Start the server
-gunicorn manage:app
+gunicorn --bind localhost:8000 manage:app
