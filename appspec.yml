@@ -20,8 +20,3 @@ hooks:
    ApplicationStart:
     - location: deployment/start.sh
       runas: ec2-user
-libraries:
-  - name: jinja2
-    version: latest
-  - name: markupsafe
-  version: latest
