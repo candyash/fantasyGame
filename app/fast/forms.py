@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, BooleanField, SubmitField, IntegerField,PasswordField
+from wtforms import StringField, TextAreaField, BooleanField, SubmitField, IntegerField,PasswordField, RadioField
+from flask_wtf.file import FileField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Optional, Length, Required, URL, Email, EqualTo
 from flask.ext.pagedown.fields import PageDownField
@@ -21,3 +22,12 @@ class RegisterForm(Form):
     password = PasswordField('Password', [Required(), EqualTo('confirm')])
     confirm  = PasswordField('Confirm')
     submit = SubmitField('Register')
+
+class CreatLeagueForm(Form):
+    leagueName=StringField('League Name', validators=[Required(), Length(3,30)])
+    photo = FileField('upload')
+    private = RadioField('private', choices=[('private','private'),('public','public')])
+    gameType = RadioField('Game Type', choices=[('Seasonal','Seasonal'),('Keeper','Keeper')])
+    matchType = RadioField('Match Type', choices=[('Classic Mode  (Rotisserie)','Classic Mode  (Rotisserie)'),('Head-to-head','Head-to-head')])
+    champion = RadioField('Champion', choices=[('Play-offs','Play-offs'),('Head-to-head','Head-to-head')])
+    submit=SubmitField('Create a League')

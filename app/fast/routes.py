@@ -2,9 +2,9 @@ from flask import render_template, flash, redirect, \
     url_for, abort, request, current_app
 from flask.ext.login import login_required, current_user
 from ..import db
-from ..models import User, PersonalInfo
+from ..models import User, PersonalInfo,League
 from . import fast
-from .forms import ProfileForm, RegisterForm
+from .forms import ProfileForm, RegisterForm, CreatLeagueForm
 from config import Config
 from flask.ext.sqlalchemy import Pagination
 import sqlalchemy
@@ -85,9 +85,27 @@ def profile():
 def team():
     return render_template('fast/team.html')
 
-@fast.route('/league')
-def  league():
-    return render_template('fast/league.html')
+@fast.route('/CreateLeague', methods=['GET', 'POST'])
+def  CreateLeague():
+    form=CreatLeagueForm()
+    try:
+        if request.method == 'POST':
+            leagueName=form.leagueName.data
+            gameType=form.gameType.data
+            leagueType=form.private.data
+            champion=form.champion.data
+            matchType=form.matchType.data
+            flash('0')
+            create=League(league_name=leagueName, number_of_team=1,  leagueType= leagueType, gameType=gameType, matchType=matchType, champion=champion)
+            db.session.add(create)
+            db.session.commit()
+            flash('Congratulation! You have created the League successfully!')
+            return redirect(url_for('fast.index'))
+    except:
+        flash('Sorry! Try agin!')
+
+
+    return render_template('fast/create-league.html', form=form)
 
 @fast.route('/results')
 def results():

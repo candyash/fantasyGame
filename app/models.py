@@ -124,10 +124,18 @@ class League(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     league_name=db.Column(db.String(20))
     number_of_team=db.Column(db.Integer)
-    regular_season=db.Column(db.String(30))
-    playoff=db.Column(db.Boolean)
-    team_quality=db.Column(db.Boolean)
-    keeper_league=db.Column(db.Boolean)
+    leagueType=db.Column(db.String(30))
+    gameType=db.Column(db.String(30))
+    matchType=db.Column(db.String(30))
+    champion=db.Column(db.String(30))
+
+    def __init__(self, league_name, number_of_team, leagueType, gameType, matchType, champion):
+        self.league_name=league_name
+        self.number_of_team=number_of_team
+        self.leagueType=leagueType
+        self.gameType=gameType
+        self.matchType=matchType
+        self.champion=champion
 
 class Trades(db.Model):
     __tablename__='trades'
