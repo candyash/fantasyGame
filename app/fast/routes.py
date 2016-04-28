@@ -8,6 +8,9 @@ from .forms import ProfileForm, RegisterForm, CreatLeagueForm
 from config import Config
 from flask.ext.sqlalchemy import Pagination
 import sqlalchemy
+from flask.ext.login import login_required, current_user
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
+from sqlalchemy import exc
 
 
 
@@ -53,8 +56,9 @@ def Register():
             db.session.commit()
             flash("User {0} was registered successfully.".format(username))
             return redirect(url_for("auth.login"))
-    except :
-        flash("User already exists. Try agin!")
+    except (IntegrityError,InvalidRequestError) as e:
+        db.session.rollback()
+        flash('Sorry! User is already exists!')
 
 
     return render_template("fast/Register.html", form=form)
@@ -86,26 +90,30 @@ def team():
     return render_template('fast/team.html')
 
 @fast.route('/CreateLeague', methods=['GET', 'POST'])
+@login_required
 def  CreateLeague():
     form=CreatLeagueForm()
-    try:
-        if request.method == 'POST':
-            leagueName=form.leagueName.data
-            gameType=form.gameType.data
-            leagueType=form.private.data
-            champion=form.champion.data
-            matchType=form.matchType.data
-            flash('0')
-            create=League(league_name=leagueName, number_of_team=1,  leagueType= leagueType, gameType=gameType, matchType=matchType, champion=champion)
-            db.session.add(create)
-            db.session.commit()
-            flash('Congratulation! You have created the League successfully!')
-            return redirect(url_for('fast.index'))
-    except:
-        flash('Sorry! Try agin!')
-
-
+    if current_user.is_authenticated:
+        try:
+            if request.method == 'POST':
+                leagueName=form.leagueName.data
+                game_type=form.gameType.data
+                league_type=form.private.data
+                champion=form.champion.data
+                match_type=form.matchType.data
+                create=League(league_name=leagueName, number_of_team=1,  league_type= league_type, game_type=game_type, match_type=match_type, champion=champion)
+                db.session.add(create)
+                db.session.commit()
+                flash('Congratulation! You have created {0} League successfully!'.format(leagueName))
+                return render_template('fast/create-league.html', form=form)
+        except (IntegrityError,InvalidRequestError) as e:
+            db.session.rollback()
+            flash('Sorry! The League Name is already exists!')
+    else:
+        flash('Please Login!')
+        return redirect(url_for('auth.login'))
     return render_template('fast/create-league.html', form=form)
+
 
 @fast.route('/results')
 def results():

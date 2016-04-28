@@ -21,7 +21,7 @@ class User(UserMixin,db.Model):
     is_admin = db.Column(db.Boolean)
     password_hash = db.Column(db.String(128))
     user_info=db.relationship('PersonalInfo' ,uselist=False,backref='users',cascade="save-update, merge, delete")
-    last_seen = db.Column(db.DateTime)
+    last_seen = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
 
     def __init__(self, email, username, is_admin,password):
         self.email=email
@@ -121,20 +121,21 @@ class Prize(db.Model):
 
 class League(db.Model):
     __tablename__='league'
-    id=db.Column(db.Integer,primary_key=True)
-    league_name=db.Column(db.String(20))
-    number_of_team=db.Column(db.Integer)
-    leagueType=db.Column(db.String(30))
-    gameType=db.Column(db.String(30))
-    matchType=db.Column(db.String(30))
-    champion=db.Column(db.String(30))
+    id=db.Column(db.Integer,primary_key=True, unique=True)
+    league_name=db.Column(db.String(20), unique=True, nullable=False)
+    number_of_team=db.Column(db.Integer, nullable=False)
+    league_type=db.Column(db.String(30), nullable=False)
+    game_type=db.Column(db.String(30),nullable=False)
+    match_type=db.Column(db.String(30), nullable=False)
+    champion=db.Column(db.String(30), nullable=False)
+    create_date=db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
 
-    def __init__(self, league_name, number_of_team, leagueType, gameType, matchType, champion):
+    def __init__(self, league_name, number_of_team, league_type, game_type, match_type, champion):
         self.league_name=league_name
         self.number_of_team=number_of_team
-        self.leagueType=leagueType
-        self.gameType=gameType
-        self.matchType=matchType
+        self.league_type=league_type
+        self.game_type=game_type
+        self.match_type=match_type
         self.champion=champion
 
 class Trades(db.Model):
