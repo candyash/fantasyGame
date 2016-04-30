@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+<!DOCTYPE html>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</HEAD>
 <div class="space">
 <div class="container">
-  <form class="form-horizontal" action="{{url_for('fast.CreateLeague')}}" method="post" >
+  <form class="form-horizontal" action="{{url_for('fast.CreateLeague')}}"  enctype="multipart/form-data" method="post" >
                     {{ form.hidden_tag() }}
                   {{ wtf.form_errors(form, hiddens="only") }}
                   <fieldset>
@@ -16,7 +20,10 @@
 
   <div class="form-group">
     <h5><strong>Photo/Symbol of the league</strong></h5>
-    {{ wtf.form_field(form.photo) }}
+
+
+        {{ wtf.form_field(form.photo_league) }}
+
   </div>
 
   <div class="form-group">

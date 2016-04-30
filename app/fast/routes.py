@@ -11,6 +11,9 @@ import sqlalchemy
 from flask.ext.login import login_required, current_user
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy import exc
+from tools import s3_upload
+
+
 
 
 
@@ -40,6 +43,7 @@ def Register():
     form = RegisterForm()
     try:
         if request.method == "POST" and form.validate_on_submit():
+
             firstname=form.firstName.data
             lastname=form.lastName.data
             country=form.country.data
@@ -93,9 +97,14 @@ def team():
 @login_required
 def  CreateLeague():
     form=CreatLeagueForm()
+
     if current_user.is_authenticated:
         try:
-            if request.method == 'POST':
+            if form.validate_on_submit():
+                
+
+                output = s3_upload(form.photo_league)
+                flash('{src} uploaded to S3 as {dst}'.format(src=form.photo_league.data, dst=output))
                 leagueName=form.leagueName.data
                 game_type=form.gameType.data
                 league_type=form.private.data

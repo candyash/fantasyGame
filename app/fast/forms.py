@@ -25,7 +25,7 @@ class RegisterForm(Form):
 
 class CreatLeagueForm(Form):
     leagueName=StringField('League Name', validators=[Required(), Length(3,30)])
-    photo = FileField('upload')
+    photo_league = FileField('Picture upload')
     private = RadioField('private', choices=[('private','private'),('public','public')])
     gameType = RadioField('Game Type', choices=[('Seasonal','Seasonal'),('Keeper','Keeper')])
     matchType = RadioField('Match Type', choices=[('Classic Mode  (Rotisserie)','Classic Mode  (Rotisserie)'),('Head-to-head','Head-to-head')])
