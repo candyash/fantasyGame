@@ -129,14 +129,18 @@ class League(db.Model):
     match_type=db.Column(db.String(30), nullable=False)
     champion=db.Column(db.String(30), nullable=False)
     create_date=db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
+    url=db.Column(db.String(500), nullable=False)
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)
 
-    def __init__(self, league_name, number_of_team, league_type, game_type, match_type, champion):
+    def __init__(self, league_name, number_of_team, league_type, game_type, match_type, champion, url, user_id):
         self.league_name=league_name
         self.number_of_team=number_of_team
         self.league_type=league_type
         self.game_type=game_type
         self.match_type=match_type
         self.champion=champion
+        self.url=url
+        self.user_id=user_id
 
 class Trades(db.Model):
     __tablename__='trades'

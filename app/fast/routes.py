@@ -101,27 +101,34 @@ def  CreateLeague():
     if current_user.is_authenticated:
         try:
             if form.validate_on_submit():
-                
-
                 output = s3_upload(form.photo_league)
-                flash('{src} uploaded to S3 as {dst}'.format(src=form.photo_league.data, dst=output))
+                photo="https://s3-us-west-2.amazonaws.com/upload-picture/upload-picture.s3-website-us-west-2.amazonaws.com/"+output
                 leagueName=form.leagueName.data
                 game_type=form.gameType.data
                 league_type=form.private.data
                 champion=form.champion.data
                 match_type=form.matchType.data
-                create=League(league_name=leagueName, number_of_team=1,  league_type= league_type, game_type=game_type, match_type=match_type, champion=champion)
+                user_id=current_user.id
+                create=League(league_name=leagueName, number_of_team=1,  league_type= league_type, game_type=game_type, match_type=match_type, champion=champion, url=photo, user_id=user_id)
                 db.session.add(create)
                 db.session.commit()
                 flash('Congratulation! You have created {0} League successfully!'.format(leagueName))
-                return render_template('fast/create-league.html', form=form)
+                return redirect(url_for('fast.Confirmation'))
         except (IntegrityError,InvalidRequestError) as e:
             db.session.rollback()
-            flash('Sorry! The League Name is already exists!')
+            flash('Sorry! The give data already exists. Try again!')
     else:
         flash('Please Login!')
         return redirect(url_for('auth.login'))
     return render_template('fast/create-league.html', form=form)
+@fast.route('/Confirmation')
+@login_required
+def Confirmation():
+
+    result=League.query.filter(League.user_id==current_user.id).first()
+
+    return render_template('fast/confirmation.html', result=result)
+
 
 
 @fast.route('/results')
