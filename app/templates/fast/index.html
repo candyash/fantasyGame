@@ -3,25 +3,48 @@
 
 {% if current_user.is_authenticated %}
  <div class="container">
-         <div class="jumbotron">
+    {% if  not result %}
+
 
           <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-12">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-2">
+            <div class="jumbotron">
               <h1>Fantansy Game</h1>
-            <a class="btn btn-success btn-lg"  href="{{url_for('fast.CreateLeague')}}">Create League</a>
+            <a class="btn btn-success btn-lg span7"  href="{{url_for('fast.CreateLeague')}}">Create League</a>
 
-            <button class="btn btn-success btn-lg">Join League</button>
+            <button class="btn btn-success btn-lg span7">Join League</button>
           </div>
-            <div class="col-lg-2 col-md-2 col-sm-12">
-            </div>
+
           </div>
           <div>
 
            </div>
 
          </div>
+         {% else %}
+         <div class="container well">
+           <legend>League Info</legend>
+
+           <div class="row">
+
+             <div class="col-lg-4 col-md-4 col-sm-12 col-lg-offset-1 col-md-offset-1 col-sm-offset-1">
+
+           <img class="img-rounded" alt="Cinque Terre" width="304" height="236"
+          src="{{result.url}}"></img>
+          </div>
+          <div "col-lg-4 col-md-4 col-sm-12">
+            <p>Leage Name : {{result.league_name}}</p>
+             <p>Number of Team : {{result.number_of_team}}</p>
+              <p>League Type: {{result.league_type}}</p>
+               <p>Game Type : {{result.game_type}}</p>
+                 <p>Match Type : {{result.match_type}}</p>
+                <a href="{{url_for('fast.EditLeague')}}" class="btn btn-lg btn-success"   >Edit</a>
+
+          </div>
+          </div>
+         </div>
+         {% endif %}
+
 {% else %}
 <div class="container">
         <div class="jumbotron">

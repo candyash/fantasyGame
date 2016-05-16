@@ -84,3 +84,15 @@ div.user-header p {
     width: auto;
     margin-bottom: 200px;
 }
+body {
+    background-image: url("images/2.jpg");
+    background-color: #cccccc;
+
+}
+.jumbotron {
+   background: rgb(192, 192, 192); /* This is for ie8 and below */
+   background: rgba(192, 192, 192, 0.85);
+}
+.jumbotron h1 {
+    color: black;
+}

@@ -2,20 +2,19 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
-
 class Config(object):
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or '\xbb\xed\x0e?\xcfY#8Ev\x17\x04t\x15\xa4*****************'
     USER_PER_PAGE = 20
-    S3_LOCATION = 'S3_LOCATION'
-    S3_KEY = 'S3_KEY'
-    S3_SECRET = 'S3_SECRET'
-    S3_UPLOAD_DIRECTORY = 'upload-directory'
-    S3_BUCKET = 'buketname'
+    S3_LOCATION = 'http://ec2-52-25-146-234.us-west-2.compute.amazonaws.com/'
+    S3_KEY = 'AKIAIY24N4J6SXZDDJOQ'
+    S3_SECRET = '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'
+    S3_UPLOAD_DIRECTORY = 'upload-picture.s3-website-us-west-2.amazonaws.com'
+    S3_BUCKET = 'upload-picture'
+    ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'jpeg', 'gif'])
 
     if os.environ.get('DATABASE_URL') is None:
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL','postgresql+psycopg2://username:password@localhost/fantacygame')
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL','postgresql+psycopg2://ashenafi:Uno12mazurca@localhost/fantacygame')
     else:
         SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 

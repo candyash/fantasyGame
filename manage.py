@@ -9,6 +9,7 @@ from app.models import User
 
 
 
+
 if os.path.exists('.env'):
     print('Importing environment from .env...')
     for line in open('.env'):

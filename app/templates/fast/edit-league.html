@@ -9,11 +9,11 @@
 <div class="container ">
   <div class="row well">
     <div class="col-lg-8 col-md-8 col-sm-12 col-md-offset-2 col-lg-offset-2 col-sm-offset-2">
-  <form class="form-horizontal" action="{{url_for('fast.CreateLeague')}}"  enctype="multipart/form-data" method="post" >
+  <form class="form-horizontal" action="{{url_for('fast.EditLeague')}}"  enctype="multipart/form-data" method="post" >
                     {{ form.hidden_tag() }}
                   {{ wtf.form_errors(form, hiddens="only") }}
                   <fieldset>
-                          <legend class="text-center header">Create a League</legend>
+                          <legend class="text-center header">Edit a League</legend>
   <div class="form-group">
     <div class="col-lg-4 col-md-4 col-sm-12">
     {{ wtf.form_field(form.leagueName) }}
@@ -23,7 +23,8 @@
   <div class="form-group">
     <h5><strong>Photo/Symbol of the league</strong></h5>
 
-
+    <img class="img-rounded" alt="Cinque Terre" width="304" height="236"
+   src="{{user_info.url}}"></img>
         {{ wtf.form_field(form.photo_league) }}
 
   </div>
@@ -46,7 +47,7 @@
     {{ wtf.form_field(form.champion) }}
   </div>
   <div class="form-group">
-    {{ wtf.form_field(form.submit) }}
+     <button type="submit" class="btn btn-lg btn-success" >Submit</button>
   </div>
 
 

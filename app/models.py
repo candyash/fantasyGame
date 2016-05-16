@@ -22,6 +22,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(128))
     user_info=db.relationship('PersonalInfo' ,uselist=False,backref='users',cascade="save-update, merge, delete")
     last_seen = db.Column(db.DateTime(timezone=True), default=datetime.utcnow)
+    league_tag=db.relationship('League', backref='users')
 
     def __init__(self, email, username, is_admin,password):
         self.email=email

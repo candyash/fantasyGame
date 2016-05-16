@@ -21,8 +21,12 @@ from tools import s3_upload
 @fast.route("/")
 def index():
     form = RegisterForm()
-
-    return render_template ("fast/index.html", form=form)
+    if current_user.is_authenticated:
+        user_id=current_user.id
+        result= League.query.join(User.league_tag).filter(User.id == user_id).first()
+        return render_template ("fast/index.html", form=form, result=result)
+    else:
+        return render_template ("fast/index.html", form=form)
 @fast.route("/user/<username>")
 def user(username):
     """initializing presonalinfo for the current user"""
@@ -69,7 +73,7 @@ def Register():
 @fast.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    form = ProfileForm()
+    form = RegisterForm()
     if form.validate_on_submit():
         current_user.user_info.first_name = form.firstName.data
         current_user.user_info.last_name = form.lastName.data
@@ -118,7 +122,7 @@ def  CreateLeague():
             db.session.rollback()
             flash('Sorry! The give data already exists. Try again!')
     else:
-        flash('Please Login!')
+        flash('Please Logiffffn!')
         return redirect(url_for('auth.login'))
     return render_template('fast/create-league.html', form=form)
 @fast.route('/Confirmation')
@@ -128,6 +132,54 @@ def Confirmation():
     result=League.query.filter(League.user_id==current_user.id).first()
 
     return render_template('fast/confirmation.html', result=result)
+
+@fast.route('/EditLeague' , methods=['GET', 'POST'])
+@login_required
+def  EditLeague():
+    form=CreatLeagueForm()
+    user_id=current_user.id
+    user_info= League.query.join(User.league_tag).filter(User.id == user_id).first()
+    if form.validate_on_submit():
+        output = s3_upload(form.photo_league)
+        photo="https://s3-us-west-2.amazonaws.com/upload-picture/upload-picture.s3-website-us-west-2.amazonaws.com/"+output
+        user_info.league_name= form.leagueName.data
+
+        if  "." in photo and photo.rsplit('.', 1)[1] in current_app.config["ALLOWED_EXTENSIONS"]:
+            user_info.url = photo
+        else:
+            user_info.url = user_info.url
+
+        user_info.league_type = form.private.data
+        user_info.game_type = form.gameType.data
+        user_info.match_type = form.matchType.data
+        user_info.champion = form.champion.data
+        user_info.user_id=current_user.id
+        db.session.add(user_info)
+        db.session.commit()
+        flash('League information updated!')
+        return redirect(url_for('fast.LeagueInfo'))
+
+
+    if user_info:
+        form.leagueName.data=user_info.league_name
+        form.photo_league.data=user_info.url
+        form.private.data = user_info.league_type
+        form.gameType.data = user_info.game_type
+        form.matchType.data = user_info.match_type
+        form.champion.data = user_info.champion
+
+    return render_template('fast/edit-league.html', form=form, user_info=user_info)
+
+
+@fast.route('/LeagueInfo')
+@login_required
+def  LeagueInfo():
+    user_id=current_user.id
+    result= League.query.join(User.league_tag).filter(User.id == user_id).first()
+
+    return render_template("fast/league-info.html", result=result)
+
+
 
 
 
